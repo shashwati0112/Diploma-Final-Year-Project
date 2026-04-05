@@ -1,0 +1,169 @@
+Group 3 - programme 5 
+Q: Exception in thread "main" java.lang.NullPointerException: Cannot invoke "SavingsAccount.printAccountInfo()" because "accounts[i]" is null
+    at Bank.printBankSummary(Bank.java:27)
+    at Program5.main(Program5.java:11)
+
+--------------------------------------------------------------------------------------------------------------------------------
+Ans: 
+It seems like you are getting a NullPointerException when trying to access an array element in your SudokuBoard class. This is likely because one of the arrays being accessed is null, which means that it has not been initialized or has been set to null.
+
+To fix this issue, you can try initializing the arrays inside the constructor of your SudokuBoard class. For example:
+
+public SudokuBoard(int[][] init) {
+    board = new int[9][9]; // initialize the board array
+    availableNumbers = new int[9]; // initialize the available numbers array
+    fixedSquares = new int[9][9]; // initialize the fixed squares array
+
+    for (int i = 0; i < init.length; i++) {
+        for (int j = 0; j < init[i].length; j++) {
+            board[i][j] = init[i][j]; // set the values of the board array
+        }
+    }
+}
+
+This will ensure that all arrays are initialized and can be accessed without causing a NullPointerException.
+
+📖 Source Docs:
+
+--- Document 1 ---
+📄 File: C:\Users\Kedar Dhule\Documents\Morgan Stanley\projects\GenAI-Chatbot\RAG\Intermediate-Java\Group1\Program11\src\SudokuBoard.java
+}
+}
+}
+
+public void print(){ //just prints the entire board by traversing the 2d array, elementary at this point
+    for (int i = 0; i < board.length; i++){
+        for (int j = 0; j < board[i].length; j++){
+            System.out.print((board[i][j] + 1) + " ");
+        }
+        System.out.print("\n");
+    }
+    System.out.print("\n");
+}
+
+private boolean noNumbersLeft(){
+    for (int i = 0; i < availableNumbers.length; i++){
+        if (availableNumbers[i] != 0){
+            return false; //if ANY number is still available, false is returned 
+        }
+    }
+    return true;
+}
+
+private boolean isOk(int r, int c){ //checks rows separately to ensure move is in line with rules
+    for (int row = 0; row < board.length; row++){
+        if (board[row][c] == board[r][c] && row != r){
+            return false;
+        }
+    }
+    for (int col = 0; col < board.length; col++){ //checks columns separately to make sure it is within the rules
+        if (board[r][col] == board[r][c] && col != c){
+            return false;
+        }
+    }
+    
+    for (int rTemp = (r/3)*3; rTemp < (r/3)*3 + 3; rTemp++){ //this checks the 3x3 square for duplicates, 
+        for (int cTemp = (c/3)*3; cTemp < (c/3)*3 + 3; cTemp++){
+            if ((board[rTemp][cTemp] == board[r][c]) && ((r != rTemp) && (c != (cTemp)))){ //returns false if the current value being tested equals the value of the number just placed and is not at the same index
+                return false;
+            }
+        }
+    }
+    return true; //returns true otherwise
+}
+public boolean solve(){
+    if (noNumbersLeft()){
+        return true; //if no numbers are left, it is "solved" as much as possible
+    }
+    else{
+        for (int row = 0; row < board.length; row++){...
+
+--- Document 2 ---
+📄 File: C:\Users\Kedar Dhule\Documents\Morgan Stanley\projects\GenAI-Chatbot\RAG\Intermediate-Java\Group1\Program11\src\Program11.java
+BufferedReader in = new BufferedReader(new FileReader(fileName)); //reads in the filename
+String currentLine;
+int currentIndex = 0;
+while ((currentLine = in.readLine()) != null ){ //while the currentLine is not null
+String[] lineFields = currentLine.trim().split("\s+"); //splits into an array of strings based on any spacial character
+int[] lineInts = new int[lineFields.length]; //creates an array of integers, where the strings will be parsed and placed
+
+              for (int i = 0; i < lineInts.length; i++){
+                  lineInts[i] = Integer.parseInt(lineFields[i]); //parses each string into an int and puts them into the int array
+              }
+              if (lineInts.length == 9){ //NOTE: not completely necessary, but makes sure the array is not jagged
+              init[currentIndex] = lineInts; //puts the entire array of ints onto the specified line of init
+              }
+              currentIndex++; //increments the index position (in init)
+              
+              if (currentIndex > 8){ //NOTE: I know this is not completely necessary, but will ensure the init array caps at 9 lines and does not go out of bounds
+                  break;
+              }
+             
+            }
+            
+        }
+        catch(IOException ex){ //if there is an IOException
+            System.out.println("There was an error, check input file");
+            System.exit(0);
+        }
+
+        SudokuBoard sb = new SudokuBoard(init);
+    
+        sb.print(); //prints unsolved board
+    
+        if (sb.solve()){
+        sb.print(); //prints solved board
+        }
+        else{
+        System.out.println("No solution.");
+        }
+     }
+    
+}
+
+}...
+Textbox
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+2nd Ans:
+The error message you're seeing is a NullPointerException, which means that you are trying to call a method on a null object reference. In this case, the error is occurring when you try to call the `printAccountInfo()` method on an object in your `accounts` array, but the object at that index is actually null.
+
+To fix this issue, you can check if the object is null before attempting to call its methods:
+```
+for (int i = 0; i < accounts.length; i++) {
+    if (accounts[i] != null) {
+        accounts[i].printAccountInfo();
+    }
+}
+```
+Alternatively, you can use the `forEach` method to iterate over the array and call the method on each non-null object:
+```
+Arrays.stream(accounts).filter(Objects::nonNull).forEach(SavingsAccount::printAccountInfo);
+```
+--------------------------------------------------------------------------------------------------------------------------------
+
+This error message indicates that the `accounts` array in the `Bank` class is null, and you are trying to invoke the `printAccountInfo()` method on a null object. To fix this issue, you need to check if the `accounts[i]` variable is null before attempting to print its information. You can do this by adding a null check before calling `printAccountInfo()`: ```
+java 
+for (int i = 0; i < accounts.length; i++) {
+    if (accounts[i] != null) 
+    { 
+        accounts[i].printAccountInfo();
+    }
+    else{ 
+        System.out.println("Account " + i + " is null"); 
+        } 
+    } 
+``` 
+
+Alternatively, you can also use the `Optional` class to handle the case where an account is null: 
+```java 
+for (int i = 0; i < accounts.length; i++) {
+    Optional<SavingsAccount> optionalAccount = Optional.ofNullable(accounts[i]);
+      if (optionalAccount.isPresent()) 
+        { optionalAccount.get().printAccountInfo(); } 
+      else { 
+        System.out.println("Account " + i + " is null"); 
+        }
+    } 
+``` 

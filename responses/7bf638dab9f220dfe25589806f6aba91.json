@@ -1,0 +1,1 @@
+{"answer": "\ud83d\udccc Answer:\n\n```java\npublic static int add(int a, int b) {\n    return a + b;\n}\n```", "source_documents": []}

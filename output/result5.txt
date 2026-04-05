@@ -1,0 +1,6 @@
+Query: Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 20 out of bounds for length 20     at Bank.addAccount(Bank.java:19)     at Program5.main(Program5.java:11)
+
+
+* The exception "ArrayIndexOutOfBoundsException" occurs when the index is larger than the size of an array or list. In this case, it appears that the error is occurring in the "addAccount()" method of the "Bank" class, which takes a 20-element array as input. However, the code is attempting to access the element at index 20, which is outside the bounds of the array. This is causing the exception to be thrown.
+* To fix this issue, you can either increase the size of the array or change the code so that it does not attempt to access elements beyond the end of the array. For example, you could use a loop to iterate over the array and add each element individually, rather than attempting to access them all at once.
+* It's also important to note that this exception can be caused by other issues in your code, such as null pointer exceptions or incorrect type conversions. So, it's good practice to use a debugger and check for these errors before trying to run the program again.

@@ -1,0 +1,52 @@
+query,output,timestamp
+Why is my bubbleSort method not sorting the permutations correctly in Program9.java?,"📌 Answer:
+Your `bubbleSort` method is not sorting the permutations correctly in Program9.java because you are using a recursive function to generate the permutations, and the order of the elements in the arrayList `permutations` is not guaranteed.
+
+To fix this issue, you can modify your `findPermutations` method to use an iterative approach instead of a recursive one. Here's an example of how you could modify your method:
+```java
+public static String[] findPermutations(String s) {
+    ArrayList<String> permutations = new ArrayList<>();
+    
+    for (int i = 0; i < s.length(); i++) {
+        String newString = s.substring(0, i) + s.substring(i + 1);
+        permutations.add(newString);
+    }
+    
+    return permutations.toArray(new String[permutations.size()]);
+}
+```
+This method uses an iterative approach to generate the permutations of a string by iterating over each character in the string and creating a new string with that character removed. It then adds the new string to the `permutations` arrayList. Finally, it returns the `permutations` array as a `String[]`.
+
+With this modification, your `bubbleSort` method should work correctly and sort the permutations in ascending order.
+
+📖 Source Docs:
+
+--- Document 1 ---
+while (fileScanner.hasNext()) {
+			dic.addEntry(fileScanner.next());
+		}
+		
+		fileScanner.close();
+		
+		
+		Scanner in = new Scanner(System.in);
+		String word;
+		
+		System.out.print(""Enter a scrambled word: "");
+		
+		while (!(word = in.nextLine()).isEmpty()) {
+			
+			String[] permutations = findPermutations(word);
+			ArrayList<String> matches = new ArrayList<String>();
+			for (int i = 0; i < permutations.length; i++) {
+				if (dic.lookup(permutations[i])) {
+					matches.add(permutations[i]);
+				}...
+--- Document 2 ---
+import java.util.Comparator;...",2025-06-04 16:03:05.436099
+,,2025-06-04 20:05:37.281329
+,,2025-06-04 20:05:39.745140
+"Give me java programme for comparing 2 numbers
+
+","📌 Answer:
+Here is a simple program in Java that compares two numbers and prints the smaller one: ``` public class CompareNumbers { public static void main(String[] args) { int num1 = 5; int num2 = 8; if (num1 < num2) { System.out.println(""Smaller number is "" + num1); } else { System.out.println(""Smaller number is "" + num2); } } } ``` This program takes two command-line arguments (num1 and num2) and compares them using the '<' operator. If num1 is smaller than num2, it prints ""Smaller number is num1"" and if num2 is smaller than num1, it prints ""Smaller number is num2"". ",2025-06-05 12:23:20.542447

@@ -1,0 +1,37 @@
+Q: Tell the difference between class and method in java
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Answer:
+In the provided code, we have two classes: `Program8` and `Coordinate`. The main method of the `Program8` class calls the `main` method of the `Coordinate` class. This is an example of a class calling another class as a method.
+
+A class is a blueprint for creating objects that represent real-world entities or abstractions. It defines properties and methods that can be accessed by instances of the class. In this case, the `Coordinate` class has properties for storing x and y coordinates, as well as methods for getting and setting these values.
+
+On the other hand, a method is a function that belongs to a class and performs a specific action or returns a specific value. In this case, the `main` method of the `Program8` class calls the `main` method of the `Coordinate` class, which represents an entry point for the program.
+
+In summary, classes define objects and their properties, while methods perform actions or return values on behalf of those objects.
+
+📖 Source Docs:
+
+--- Document 1 ---
+public class Program8 {
+	  public static void main(String[] args) {
+	        Calculator.main(null);
+	    }
+}...
+--- Document 2 ---
+public class Coordinate {
+	private int x;
+	private int y;
+
+	public Coordinate(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+}...

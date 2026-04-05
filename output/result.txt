@@ -1,0 +1,53 @@
+
+# 1) Exception in thread "main" java.lang.NullPointerException: Cannot read the array length because "fixedSquares[i]" is null
+# 	at SudokuBoard.<init>(SudokuBoard.java:18)
+#  	at Program11.main(Program11.java:60)
+
+--------------------------------------------------------------------------------------------------------------------------------
+Solution: 
+The error message you're seeing is a NullPointerException, which means that the code is trying to access an object or method on a null reference. In this case, it seems like the `fixedSquares` array in the `SudokuBoard` constructor is not being initialized properly.
+
+One possible issue is that you're trying to create a 2D array of size `[9][9]`, but you're not actually initializing the elements of the array. You can fix this by replacing `int[][] fixedSquares = new int[9][9];` with `int[][] fixedSquares = new int[9][9]{0};`. This will initialize all of the elements of the array to 0, which is necessary because you're trying to access them later on in the code.
+
+Another potential issue is that you're trying to read from a file and put the contents into an array, but you're not actually checking if the file exists or if it has the right format. You can fix this by adding some error handling around the `BufferedReader` creation and using `try-catch` blocks to handle any exceptions that might occur when reading from the file.
+
+Here's an example of how you could modify your code to handle these issues:
+```
+public static void main(String[] args) {
+    String fileName = "input.txt"; // replace with your actual file name
+    BufferedReader in = new BufferedReader(new FileReader(fileName));
+    try {
+        String currentLine;
+        int currentIndex = 0;
+        while ((currentLine = in.readLine()) != null) {
+            String[] lineFields = currentLine.trim().split("\\s+");
+            int[] lineInts = new int[lineFields.length];
+            for (int i = 0; i < lineInts.length; i++) {
+                lineInts[i] = Integer.parseInt(lineFields[i]);
+            }
+            if (lineInts.length == 9) {
+                init[currentIndex] = lineInts;
+            }
+            currentIndex++;
+            if (currentIndex > 8) {
+                break;
+            }
+        }
+    } catch (IOException ex) {
+        System.out.println("There was an error, check input file");
+        System.exit(0);
+    } finally {
+        in.close();
+    }
+
+    SudokuBoard sb = new SudokuBoard(init);
+    sb.print();
+
+    if (sb.solve()) {
+        sb.print();
+    } else {
+        System.out.println("No solution.");
+    }
+}
+```
+This code will first try to read the contents of the file into an array, and then create a `SudokuBoard` object with that data. It also includes some error handling around the `BufferedReader` creation and will close the reader properly after it's done reading from the file.

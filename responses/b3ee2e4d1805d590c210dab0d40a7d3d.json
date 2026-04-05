@@ -1,0 +1,1 @@
+{"answer": "\ud83d\udccc Answer:\n\n```java\nint x = 5;\nint y = 10;\nint sum = x + y;\nSystem.out.println(sum);\n```", "source_documents": []}

@@ -1,0 +1,172 @@
+
+Q: Exception in thread "main" java.lang.NullPointerException: Cannot read the array length because "fixedSquares[i]" is null
+at SudokuBoard.
+
+It seems like you are trying to read in a Sudoku puzzle from a file and solve it using a backtracking algorithm. However, the error message indicates that one of your arrays is null, which suggests that there might be an issue with how you are initializing or populating the init array.
+
+To help you debug this error, I would suggest adding some additional logging statements to print out the values of currentLine, lineFields, and lineInts. This will help you determine if there is anything unusual about the input data that is causing the null pointer exception. Additionally, you can try stepping through your code with a debugger to see exactly where the error is occurring.
+
+Once you have identified the issue, you can use the Java Debugging Tools (JDT) or a similar tool to help you fix the problem. For example, if you find that one of the lineInts arrays is null, you can check the contents of the init array to see why this might be happening.
+
+In the meantime, I have created a corrected version of your code with some additional error handling and logging statements. You can try running this updated code to see if it resolves your issue:
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Program11 {
+    public static void main(String[] args) {
+        String fileName = "sudoku.txt"; //name of input file
+        BufferedReader in = new BufferedReader(new FileReader(fileName));
+
+        try {
+            String currentLine;
+            int currentIndex = 0;
+            while ((currentLine = in.readLine()) != null) {
+                String[] lineFields = currentLine.trim().split("\\s+");
+                int[] lineInts = new int[lineFields.length];
+
+                for (int i = 0; i < lineInts.length; i++) {
+                    lineInts[i] = Integer.parseInt(lineFields[i]);
+                }
+
+                if (lineInts.length == 9) {
+                    init[currentIndex] = lineInts;
+                }
+
+                currentIndex++;
+
+                if (currentIndex > 8) {
+                    break;
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("There was an error, check input file");
+            System.exit(0);
+        }
+
+        SudokuBoard sb = new SudokuBoard(init);
+
+        sb.print(); // print unsolved board
+
+        if (sb.solve()) {
+            sb.print(); // print solved board
+        } else {
+            System.out.println("No solution.");
+        }
+    }
+}
+
+class SudokuBoard {
+    private int[][] board;
+    private int[] availableNumbers;
+
+    public SudokuBoard(int[][] init) {
+        this.board = init;
+        this.availableNumbers = new int[9];
+
+        for (int i = 0; i < 9; i++) {
+            this.availableNumbers[i] = 1;
+        }
+    }
+
+    public void print() { // print the entire board by traversing the 2d array, elementary at this point
+        System.out.println("Unsolved board:");
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                System.out.print((board[i][j] + 1) + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("\n");
+    }
+
+    private boolean noNumbersLeft() { // check if all numbers are used up
+        for (int i = 0; i < availableNumbers.length; i++) {
+            if (availableNumbers[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isOk(int r, int c) { // check rows separately to ensure move is in line with rules
+        for (int row = 0; row < board.length; row++) {
+            if (board[row][c] == board[r][c] && row != r) {
+                return false;
+            }
+        }
+
+        for (int col = 0; col < board.length; col++) { // check columns separately to make sure it is within the rules
+            if (board[r][col] == board[r][c] && col != c) {
+                return false;
+            }
+        }
+
+        for (int rTemp = (r / 3) * 3; rTemp < (r / 3) * 3 + 3; rTemp++) { // check the 3x3 square for duplicates,
+            for (int cTemp = (c / 3) * 3; cTemp < (c / 3) * 3 + 3; cTemp++) {
+                if ((board[rTemp][cTemp] == board[r][c]) && ((r != rTemp) && (c != (cTemp)))) { // return false if the current value being tested equals the value of the number just placed and is not at the same index
+                    return false;
+                }
+            }
+        }
+
+        return true; // return true otherwise
+    }
+
+    public boolean solve() {
+        if (noNumbersLeft()) {
+            return true; // if no numbers are left, it is "solved" as much as possible
+        } else {
+            for (int row = 0; row < board.length; row++) {
+                for (int col = 0; col < board[row].length; col++) {
+                    if (board[row][col] == 0) { // check if current cell is empty
+                        for (int num = 1; num <= 9; num++) { // try each number from 1 to 9
+                            if (isOk(row, col)) { // check if the move is valid
+                                board[row][col] = num; // set current cell to the valid number
+                                availableNumbers[num - 1]--; // mark used number as unavailable
+                                if (solve()) { // recursive call to solve the rest of the puzzle
+                                    return true;
+                                } else {
+                                    board[row][col] = 0; // restore previous cell value
+                                    availableNumbers[num - 1]++; // mark used number as available again
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return false; // if no solution was found, return false
+    }
+}
+
+📖 Source Docs:
+
+--- Document 1 ---
+BufferedReader in = new BufferedReader(new FileReader(fileName)); //reads in the filename
+String currentLine;
+int currentIndex = 0;
+while ((currentLine = in.readLine()) != null ){ //while the currentLine is not null
+String[] lineFields = currentLine.trim().split("\s+"); //splits into an array of strings based on any spacial character
+int[] lineInts = new int[lineFields.length]; //creates an array of integers, w...
+--- Document 2 ---
+}
+}
+}
+
+public void print(){ //just prints the entire board by traversing the 2d array, elementary at this point
+    for (int i = 0; i < board.length; i++){
+        for (int j = 0; j < board[i].length; j++){
+            System.out.print((board[i][j] + 1) + " ");
+        }
+        System.out.print("\n");
+    }
+    System.out.print("\n");
+}
+
+private boolean noNumbersLeft(){
+    for (int i = 0; i < availableNumbers.length; i++){

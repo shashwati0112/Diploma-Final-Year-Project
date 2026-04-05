@@ -1,0 +1,1 @@
+{"answer": "\ud83d\udccc Answer:\n```\npublic class Addition {\n    public static void main(String[] args) {\n        int num1 = 5;\n        int num2 = 3;\n        int sum = num1 + num2;\n        System.out.println(\"The sum is: \" + sum);\n    }\n}\n```", "source_documents": []}
